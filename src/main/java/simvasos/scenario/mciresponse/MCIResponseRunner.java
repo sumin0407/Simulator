@@ -22,7 +22,7 @@ public class MCIResponseRunner {
 
         String testSession = "ABCPlus_AllTypes";
 
-
+        // 테스트 커밋
         // 수정 --> Tick의 총 횟수
         //int endTick = 7500; // 8000
         int endTick = 1000;
