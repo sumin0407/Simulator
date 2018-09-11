@@ -3,9 +3,7 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output-test url="file://$MODULE_DIR$/../../out/test/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../src/test">
-      <sourceFolder url="file://$MODULE_DIR$/../../src/test/java" isTestSource="true" />
-    </content>
+    <content url="file://$MODULE_DIR$/../../src/test" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="SIMVA-SoS_main" />
@@ -15,11 +13,11 @@
     <orderEntry type="library" name="Gradle: com.internetitem:logback-elasticsearch-appender:1.4" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0-M6" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.3.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0-M6" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.7" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.20" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.platform:junit-platform-launcher:1.0.0-M6" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0-M6" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.8.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.platform:junit-platform-launcher:1.0.0-M6" level="project" />
     <orderEntry type="library" name="Gradle: org.opentest4j:opentest4j:1.0.0-M3" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0-M6" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.junit.platform:junit-platform-engine:1.0.0-M6" level="project" />

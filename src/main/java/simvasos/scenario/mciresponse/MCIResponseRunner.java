@@ -27,7 +27,6 @@ public class MCIResponseRunner {
         //int endTick = 7500; // 8000
         int endTick = 1000;
 
-
         int minTrial = 1;
 
         // 수정 --> 각 케이스별로 돌리는 횟수
@@ -74,9 +73,9 @@ public class MCIResponseRunner {
 
                         durationSum = 0;
                         messageCntSum = 0;
-                        world.setSeed(new Random().nextLong());
+                        //world.setSeed(new Random().nextLong());
                         for (int i = minTrial - 1; i <= maxTrial; i++) {
-                            //world.setSeed(new Random().nextLong());
+                            world.setSeed(new Random().nextLong());
                             ((MCIResponseWorld) world).setSoSType(sostype);
 
                             startTime = System.currentTimeMillis();
