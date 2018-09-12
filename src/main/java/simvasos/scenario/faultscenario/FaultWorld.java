@@ -63,10 +63,10 @@ public class FaultWorld extends MCIResponseWorld {
     @Override
     public void sendMessage(Message msg) {
         // 특정 조건(ex. 확률)을 만족 시키는 경우, delay를 걸어줌
-        boolean isDelay = false;
+        boolean isDelay = true;
         if(isDelay) {
             // 딜레이 몇 초?
-            int delay = 3;
+            int delay = 10;
             delayedMessages.add(new DelayedMessage(msg, delay));
         } else {
             super.sendMessage(msg);

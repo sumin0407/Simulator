@@ -38,7 +38,7 @@ public class MCIResponseWorld extends World {
     public int messageCnt;
 
     //public static final Pair<Integer, Integer> MAP_SIZE = new Pair<Integer, Integer>(49, 49);
-    public static final Pair<Integer, Integer> MAP_SIZE = new Pair<Integer, Integer>(5, 5);
+    public static final Pair<Integer, Integer> MAP_SIZE = new Pair<Integer, Integer>(30, 30);
     public final Maptrix<Integer> expectedPatientsMap = new Maptrix<Integer>(Integer.TYPE, MAP_SIZE.getLeft(), MAP_SIZE.getRight());
     public final Maptrix<ArrayList> patientsMap = new Maptrix<ArrayList>(ArrayList.class, MAP_SIZE.getLeft(), MAP_SIZE.getRight());
 

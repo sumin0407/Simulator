@@ -52,8 +52,8 @@ public class MCIResponseRunner {
             //int[] nPatientArray = {50, 100, 150, 200, 250};
             //int[] nFireFighterArray = {2, 5, 10, 25, 50};
 
-            int[] nPatientArray = {14};
-            int[] nFireFighterArray = {4};
+            int[] nPatientArray = {50};
+            int[] nFireFighterArray = {5};
 
             ArrayList<Snapshot> trace;
             long startTime;
@@ -75,7 +75,7 @@ public class MCIResponseRunner {
                         messageCntSum = 0;
                         //world.setSeed(new Random().nextLong());
                         for (int i = minTrial - 1; i <= maxTrial; i++) {
-                            world.setSeed(new Random().nextLong());
+                            //world.setSeed(new Random().nextLong());
                             ((MCIResponseWorld) world).setSoSType(sostype);
 
                             startTime = System.currentTimeMillis();
