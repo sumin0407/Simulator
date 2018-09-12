@@ -65,9 +65,21 @@ public class FaultWorld extends MCIResponseWorld {
         // 특정 조건(ex. 확률)을 만족 시키는 경우, delay를 걸어줌
         boolean isDelay = true;
         if(isDelay) {
+
+            // 지연 구간
+            boolean onRangedDelay = false;
+            int startTick = 100;
+            int endTick = 200;
+
             // 딜레이 몇 초?
             int delay = 10;
-            delayedMessages.add(new DelayedMessage(msg, delay));
+
+            if(onRangedDelay) {
+                if(startTick <= this.time && this.time <= endTick)
+                    delayedMessages.add(new DelayedMessage(msg, delay));
+            } else {
+                delayedMessages.add(new DelayedMessage(msg, delay));
+            }
         } else {
             super.sendMessage(msg);
         }
