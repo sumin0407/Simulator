@@ -26,7 +26,9 @@ public class FaultWorld extends MCIResponseWorld {
 
     @Override
     public void reset() {
-        delayedMessages.clear();
+        if(delayedMessages != null) {
+            delayedMessages.clear();
+        }
         super.reset();
     }
 

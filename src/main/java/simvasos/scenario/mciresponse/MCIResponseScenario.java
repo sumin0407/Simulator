@@ -1,5 +1,6 @@
 package simvasos.scenario.mciresponse;
 
+import simvasos.scenario.faultscenario.FaultWorld;
 import simvasos.scenario.mciresponse.entity.*;
 import simvasos.simulation.component.Scenario;
 import simvasos.simulation.util.*;
@@ -8,7 +9,9 @@ public class MCIResponseScenario extends Scenario {
     public enum SoSType {Virtual, Collaborative, Acknowledged, Directed}
 
     public MCIResponseScenario(SoSType type, int nPatient, int nFireFighter, int nAmbulance, int nHospital) {
-        this.world = new MCIResponseWorld(type, nPatient);
+        //this.world = new MCIResponseWorld(type, nPatient);
+        // 수민 - 2018.09.12 수정
+        this.world = new FaultWorld(type, nPatient);
 
         for (int i = 1; i <= nFireFighter; i++)
             this.world.addAgent(new FireFighter(this.world, "FireFighter" + i));
