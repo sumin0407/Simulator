@@ -25,13 +25,13 @@ public class MCIResponseRunner {
         // 테스트 커밋
         // 수정 --> Tick의 총 횟수
         //int endTick = 7500; // 8000
-        int endTick = 1000;
+        int endTick = 10;
 
         int minTrial = 1;
 
         // 수정 --> 각 케이스별로 돌리는 횟수
         //int maxTrial = 100;
-        int maxTrial = 30;
+        int maxTrial = 3;
 
         try {
             File simulationLogFile = new File(String.format("traces/" + testSession + "/" + testSession + "_simulation_logs.csv"));
@@ -68,13 +68,13 @@ public class MCIResponseRunner {
                         System.out.println("Patient: " + nPatient + ", Firefighter: " + nFireFighter + ", SoS: " + sostype);
                         System.out.println(datetimeFormat.format(new Date()));
 
-                        Scenario scenario = new MCIResponseScenario(sostype, nPatient, nFireFighter, 0, 10);
+                        Scenario scenario = new MCIResponseScenario(sostype, nPatient, nFireFighter, 0, 0);
                         World world = scenario.getWorld();
 
                         durationSum = 0;
                         messageCntSum = 0;
                         //world.setSeed(new Random().nextLong());
-                        for (int i = minTrial - 1; i <= maxTrial; i++) {
+                        for (int i = minTrial - 1; i <= maxTrial; i++) {        // 왜인지는 모르겠지만 maxtrial보다 한번 더 돌리네...
                             //world.setSeed(new Random().nextLong());
                             ((MCIResponseWorld) world).setSoSType(sostype);
 
@@ -82,7 +82,7 @@ public class MCIResponseRunner {
 
                             trace = Simulator.execute(world, endTick);      // 여기서 들어가서 fault를 넣어야 할듯. 아니면 message쪽까지 가서 해야하나?
 
-                            if (i == minTrial - 1)
+                            if (i == minTrial - 1)                          // 왜인지 모르지만 첫번째 실행은 건너뛴다...
                                 continue;
 
                             duration = (System.currentTimeMillis() - startTime);

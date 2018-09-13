@@ -1,5 +1,6 @@
 package simvasos.scenario.mciresponse.entity;
 
+import kiise2016.SoS;
 import simvasos.modelparsing.modeling.ABCPlus.ABCItem;
 import simvasos.modelparsing.modeling.ABCPlus.ABCPlusCS;
 import simvasos.scenario.mciresponse.MCIResponseScenario.SoSType;
@@ -76,7 +77,7 @@ public class FireFighter extends ABCPlusCS {
         // Do pullout patients at this location
         this.immediateActionList.add(new ABCItem(this.pulloutPatient, 10, 1));
 
-        if ((SoSType) this.world.getResources().get("Type") != SoSType.Virtual) {
+        if ((SoSType) this.world.getResources().get("Type") != SoSType.Virtual)  {
             // Report pullout belief to others
             Message beliefShare = new Message();
             beliefShare.name = "Report Pullout belief";

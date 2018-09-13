@@ -59,7 +59,7 @@ public class Simulator {
             world.progress(1);
             simulationLog.add(world.getCurrentSnapshot());
             // Verdict - evaluateProperties();
-            if (world.getTime() >= endOfTime)
+            if (world.getTime() >= endOfTime)       // 이게 tick 검사 부분
                 stoppingCondition = true;
         }
 
