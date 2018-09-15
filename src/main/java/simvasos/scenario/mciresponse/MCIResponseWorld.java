@@ -182,7 +182,7 @@ public class MCIResponseWorld extends World {
 //        System.out.println("Messages: " + message.sender + " - " + message.getName());
 
         // Send the message to the receiver(s)
-        for (Agent agent : this.agents)
+        for (Agent agent : this.agents) {
             if (agent instanceof ABCPlusCS) {
                 if (agent.getName().equals(message.sender))
                     continue;
@@ -201,6 +201,7 @@ public class MCIResponseWorld extends World {
                     }
                 }
             }
+        }
     }
 
     @Override
@@ -335,24 +336,24 @@ public class MCIResponseWorld extends World {
         int[] maximalLength = new int[Math.max(MAP_SIZE.getLeft(), MAP_SIZE.getRight())];
 
         for (PropertyValue pv : prop) {
-           if (pv.propertyName.equals("Location")) {
+            if (pv.propertyName.equals("Location")) {
 //               System.out.println(pv.subjectName + ": " + pv.value.toString());
-               Location location = (Location) pv.value;
-               if (map[location.getX()][location.getY()] == null)
-                   map[location.getX()][location.getY()] = "";
-               if (pv.subject instanceof Patient)
-                   if (((Patient) pv.subject).getStatus() == Patient.Status.Pulledout)
-                       map[location.getX()][location.getY()] += ANSI_RED + pv.subject.getSymbol() + ANSI_RESET;
-                   else if (((Patient) pv.subject).getStatus() == Patient.Status.OnTransport)
-                       map[location.getX()][location.getY()] += ANSI_BLUE + pv.subject.getSymbol() + ANSI_RESET;
-                   else if (((Patient) pv.subject).getStatus() == Patient.Status.Hospitalized)
-                       map[location.getX()][location.getY()] += ANSI_GREEN + pv.subject.getSymbol() + ANSI_RESET;
-                   else
-                       map[location.getX()][location.getY()] += pv.subject.getSymbol();
-               else
-                   map[location.getX()][location.getY()] += pv.subject.getSymbol();
-               maximalLength[location.getX()] = Math.max(maximalLength[location.getX()], map[location.getX()][location.getY()].replaceAll("\u001B\\[[;\\d]*m", "").length());
-           }
+                Location location = (Location) pv.value;
+                if (map[location.getX()][location.getY()] == null)
+                    map[location.getX()][location.getY()] = "";
+                if (pv.subject instanceof Patient)
+                    if (((Patient) pv.subject).getStatus() == Patient.Status.Pulledout)
+                        map[location.getX()][location.getY()] += ANSI_RED + pv.subject.getSymbol() + ANSI_RESET;
+                    else if (((Patient) pv.subject).getStatus() == Patient.Status.OnTransport)
+                        map[location.getX()][location.getY()] += ANSI_BLUE + pv.subject.getSymbol() + ANSI_RESET;
+                    else if (((Patient) pv.subject).getStatus() == Patient.Status.Hospitalized)
+                        map[location.getX()][location.getY()] += ANSI_GREEN + pv.subject.getSymbol() + ANSI_RESET;
+                    else
+                        map[location.getX()][location.getY()] += pv.subject.getSymbol();
+                else
+                    map[location.getX()][location.getY()] += pv.subject.getSymbol();
+                maximalLength[location.getX()] = Math.max(maximalLength[location.getX()], map[location.getX()][location.getY()].replaceAll("\u001B\\[[;\\d]*m", "").length());
+            }
         }
 
 //        maximalLength = (maximalLength + 1) / stringFactor; // roundup for division by 2
