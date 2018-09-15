@@ -254,7 +254,7 @@ public class MCIResponseWorld extends World {
 
         for (int x = 0; x < MAP_SIZE.getLeft(); x++)
             for (int y = 0; y < MAP_SIZE.getRight(); y++) {
-                map[x][y] = "" + expectedPatientsMap.getValue(x, y);
+                //map[x][y] = "" + expectedPatientsMap.getValue(x, y);
                 maximalLength = Math.max(maximalLength, map[x][y].length());
             }
 

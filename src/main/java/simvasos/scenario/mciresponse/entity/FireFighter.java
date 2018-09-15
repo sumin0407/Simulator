@@ -63,7 +63,9 @@ public class FireFighter extends ABCPlusCS {
 
                 switch ((SoSType) this.world.getResources().get("Type")) {
                     case Collaborative:
+                        int a = 10;
                     case Virtual:
+                        int b = 20;
                         if (this.headingLocation != null)
                             if (this.beliefMap.getValue(this.headingLocation))
                                 this.headingLocation = null;
@@ -77,7 +79,8 @@ public class FireFighter extends ABCPlusCS {
         // Do pullout patients at this location
         this.immediateActionList.add(new ABCItem(this.pulloutPatient, 10, 1));
 
-        if ((SoSType) this.world.getResources().get("Type") != SoSType.Virtual)  {
+        if (((SoSType) this.world.getResources().get("Type") != SoSType.Virtual)) {
+        //if (((SoSType) this.world.getResources().get("Type") != SoSType.Virtual) && ((SoSType) this.world.getResources().get("Type") != SoSType.Collaborative)) {
             // Report pullout belief to others
             Message beliefShare = new Message();
             beliefShare.name = "Report Pullout belief";

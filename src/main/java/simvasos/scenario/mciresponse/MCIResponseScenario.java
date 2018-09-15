@@ -22,8 +22,8 @@ public class MCIResponseScenario extends Scenario {
         for (int i = 1; i <= nHospital; i++)        // 현재 사용 안함, 맵 중앙 위치
             this.world.addAgent(new Hospital(this.world, "Hospital" + i, new Location(MCIResponseWorld.MAP_SIZE.getLeft() / 2, MCIResponseWorld.MAP_SIZE.getRight() / 2), 100));
 
-        //if (type != SoSType.Virtual)
-        if (type != SoSType.Virtual || type!=SoSType.Collaborative)     // Collaborative도 Control tower 필요없음
+        if (type != SoSType.Virtual)
+        //if (type != SoSType.Virtual && type != SoSType.Collaborative)     // Collaborative SoS도 Control tower 필요없음
             this.world.addAgent(new ControlTower(this.world, "ControlTower"));
 
         this.checker = new PulloutChecker(2);

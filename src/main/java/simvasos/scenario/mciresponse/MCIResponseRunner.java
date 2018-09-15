@@ -25,7 +25,7 @@ public class MCIResponseRunner {
         // 테스트 커밋
         // 수정 --> Tick의 총 횟수
         //int endTick = 7500; // 8000
-        int endTick = 10;
+        int endTick = 1000;
 
         int minTrial = 1;
 
@@ -45,8 +45,8 @@ public class MCIResponseRunner {
 
             // 수정 (원본)
             //SoSType[] targetTypeArray = {SoSType.Virtual, SoSType.Collaborative, SoSType.Acknowledged, SoSType.Directed};
-
-            SoSType[] targetTypeArray = {SoSType.Collaborative};
+            SoSType[] targetTypeArray = {SoSType.Collaborative, SoSType.Acknowledged};
+            //SoSType[] targetTypeArray = {SoSType.Collaborative};
 
             // 수정 (원본)
             //int[] nPatientArray = {50, 100, 150, 200, 250};
