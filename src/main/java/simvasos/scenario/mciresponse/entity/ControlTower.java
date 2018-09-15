@@ -40,7 +40,7 @@ public class ControlTower extends ABCPlusCS {
     protected void consumeInformation() {
         for (Message message : this.incomingInformation) {
             // Pullout report from FireFighters
-            if (message.sender.startsWith("FireFighter") && message.purpose == Message.Purpose.Delivery && message.data.containsKey("PulloutLocation")) {
+            if (message.sender.startsWith("FireFighter") && message.getPurpose() == Message.Purpose.Delivery && message.data.containsKey("PulloutLocation")) {
                 Location pulloutLocation = (Location) message.data.get("PulloutLocation");
                 this.pulloutBeliefMap.setValue(pulloutLocation, true);
 //                Maptrix<Boolean> othersBeliefMap = (Maptrix<Boolean>) message.data.get("PulloutBelief");
@@ -52,7 +52,7 @@ public class ControlTower extends ABCPlusCS {
 //                        localBelief = localBelief || othersBeliefMap.getValue(x, y);
 //                        this.pulloutBeliefMap.setValue(x, y, localBelief);
 //                    }
-            } else if (message.sender.startsWith("FireFighter") && message.purpose == Message.Purpose.Response && message.data.containsKey("Accepted")) {
+            } else if (message.sender.startsWith("FireFighter") && message.getPurpose() == Message.Purpose.Response && message.data.containsKey("Accepted")) {
                 boolean accepted = (boolean) message.data.get("Accepted");
 
                 if (accepted) {
@@ -74,7 +74,7 @@ public class ControlTower extends ABCPlusCS {
                 beliefShare.sender = this.getName();
                 beliefShare.receiver = "FireFighter";
 //                beliefShare.location = this.location;
-                beliefShare.purpose = Message.Purpose.Delivery;
+                beliefShare.setPurpose(Message.Purpose.Delivery);
                 beliefShare.data.put("PulloutBelief", this.pulloutBeliefMap);
 
                 this.immediateActionList.add(new ABCItem(new SendMessage(beliefShare), 5, 1));
@@ -115,9 +115,9 @@ public class ControlTower extends ABCPlusCS {
                     direction.sender = this.getName();
                     direction.receiver = fireFighter.getName();
                     if (this.world.getResources().get("Type") == MCIResponseScenario.SoSType.Directed)
-                        direction.purpose = Message.Purpose.Order;
+                        direction.setPurpose(Message.Purpose.Order);
                     else if (this.world.getResources().get("Type") == MCIResponseScenario.SoSType.Acknowledged) {
-                        direction.purpose = Message.Purpose.ReqAction;
+                        direction.setPurpose(Message.Purpose.ReqAction);
                         direction.data.put("AdditionalBenefit", (mapX + mapY) / 4);
                     }
 

@@ -79,7 +79,7 @@ public class FaultWorld extends MCIResponseWorld {
 //        faultRanges.add(new FaultRange(200, 300, FaultType.RemoveMessage));
 //        faultRanges.add(new FaultRange(400, FaultType.DelayMessage));
 
-        faultRanges.add(new FaultRange(100, 200, FaultType.DelayMessage));
+        faultRanges.add(new FaultRange(0, 200, FaultType.DelayMessage));
     }
 
 
@@ -87,6 +87,10 @@ public class FaultWorld extends MCIResponseWorld {
     public void reset() {
         if(delayedMessages != null) {
             delayedMessages.clear();
+        }
+        if(faultRanges != null) {
+            faultRanges.clear();
+            setFaultRanges();
         }
         super.reset();
     }
@@ -106,6 +110,7 @@ public class FaultWorld extends MCIResponseWorld {
                 mustRemoveMsgs.add(delayedMsg);
 
                 super.sendMessage(delayedMsg.msg);
+                System.out.println("tick: " + this.time + " msg arrived");
             }
         }
 
@@ -119,10 +124,6 @@ public class FaultWorld extends MCIResponseWorld {
 
     @Override
     public void sendMessage(Message msg) {
-
-        if(this.time > 110) {
-            int a = 10;
-        }
 
         boolean isFaulted = false;
         int delay = 10;
@@ -142,6 +143,7 @@ public class FaultWorld extends MCIResponseWorld {
                             arrivalTime = range.getEndTick();
                         }
                         delayedMessages.add(new DelayedMessage(msg, arrivalTime));
+                        System.out.println("tick: " + this.time + " arrivalTime: " + arrivalTime + " msg type: " + msg.getPurpose());
                         break;
                     case RemoveMessage:
                         break;

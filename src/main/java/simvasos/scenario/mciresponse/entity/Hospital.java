@@ -46,14 +46,14 @@ public class Hospital extends ABCPlusCS {
     protected void generatePassiveImmediateActions() {
         for (Message message : this.incomingRequests) {
             // I-ReportCapacity
-            if (message.sender.startsWith("Ambulance") && message.purpose == Message.Purpose.ReqInfo && message.data.containsKey("Capacity")) {
+            if (message.sender.startsWith("Ambulance") && message.getPurpose() == Message.Purpose.ReqInfo && message.data.containsKey("Capacity")) {
                 switch ((MCIResponseScenario.SoSType) this.world.getResources().get("Type")) {
                     default:
                         Message locationReport = new Message();
                         locationReport.name = "Respond hospital capacity";
                         locationReport.sender = this.getName();
                         locationReport.receiver = message.sender;
-                        locationReport.purpose = Message.Purpose.Response;
+                        locationReport.setPurpose(Message.Purpose.Response);
                         locationReport.data.put("Capacity", this.capacity);
 
                         this.immediateActionList.add(new ABCItem(new SendMessage(locationReport), 0, 1));
@@ -61,7 +61,7 @@ public class Hospital extends ABCPlusCS {
                 }
 
             // Request Hospitalizing
-            } else if (message.sender.startsWith("Ambulance") && message.purpose == Message.Purpose.ReqAction && message.data.containsKey("Patient")) {
+            } else if (message.sender.startsWith("Ambulance") && message.getPurpose() == Message.Purpose.ReqAction && message.data.containsKey("Patient")) {
                 switch ((MCIResponseScenario.SoSType) this.world.getResources().get("Type")) {
                     default:
                         boolean isHospitalized = false;
@@ -77,7 +77,7 @@ public class Hospital extends ABCPlusCS {
                         hospitalizePatient.name = "Respond hospitalizing the patient";
                         hospitalizePatient.sender = this.getName();
                         hospitalizePatient.receiver = message.sender;
-                        hospitalizePatient.purpose = Message.Purpose.Response;
+                        hospitalizePatient.setPurpose(Message.Purpose.Response);
                         hospitalizePatient.data.put("Hospitalized", isHospitalized);
 
                         this.immediateActionList.add(new ABCItem(new SendMessage(hospitalizePatient), 3, 1));

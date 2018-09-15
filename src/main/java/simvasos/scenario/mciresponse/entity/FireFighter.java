@@ -49,7 +49,7 @@ public class FireFighter extends ABCPlusCS {
     protected void consumeInformation() {
         for (Message message : this.incomingInformation) {
             // PullOut belief share from FireFighters
-            if (message.sender.startsWith("ControlTower") && message.purpose == Message.Purpose.Delivery && message.data.containsKey("PulloutBelief")) {
+            if (message.sender.startsWith("ControlTower") && message.getPurpose() == Message.Purpose.Delivery && message.data.containsKey("PulloutBelief")) {
                 Maptrix<Boolean> othersBeliefMap = (Maptrix<Boolean>) message.data.get("PulloutBelief");
 
                 boolean localBelief;
@@ -86,7 +86,7 @@ public class FireFighter extends ABCPlusCS {
             beliefShare.name = "Report Pullout belief";
             beliefShare.sender = this.getName();
             beliefShare.receiver = "ControlTower";
-            beliefShare.purpose = Message.Purpose.Delivery;
+            beliefShare.setPurpose(Message.Purpose.Delivery);
             beliefShare.data.put("PulloutLocation", this.location);
 
             this.immediateActionList.add(new ABCItem(new SendMessage(beliefShare), 9, 1));
@@ -103,7 +103,7 @@ public class FireFighter extends ABCPlusCS {
     protected void generatePassiveImmediateActions() {
         for (Message message : this.incomingRequests) {
             // N-Directed Moves
-            if (message.sender.equals("ControlTower") && message.purpose == Message.Purpose.Order) {
+            if (message.sender.equals("ControlTower") && message.getPurpose() == Message.Purpose.Order) {
                 boolean accepted = false;
                 Location newLocation = (Location) message.data.get("HeadingLocation");
 
@@ -116,14 +116,14 @@ public class FireFighter extends ABCPlusCS {
                 beliefShare.name = "Direction acception";
                 beliefShare.sender = this.getName();
                 beliefShare.receiver = message.sender;
-                beliefShare.purpose = Message.Purpose.Response;
+                beliefShare.setPurpose(Message.Purpose.Response);
                 beliefShare.data.put("Accepted", accepted);
                 beliefShare.data.put("HeadingLocation", newLocation);
 
                 this.immediateActionList.add(new ABCItem(new SendMessage(beliefShare), 0, 0));
 
             // N-Acked Moves
-            } else if (message.sender.equals("ControlTower") && message.purpose == Message.Purpose.ReqAction) {
+            } else if (message.sender.equals("ControlTower") && message.getPurpose() == Message.Purpose.ReqAction) {
                 boolean accepted = false;
                 Location newLocation = (Location) message.data.get("HeadingLocation");
 
@@ -139,7 +139,7 @@ public class FireFighter extends ABCPlusCS {
                 beliefShare.name = "Direction acception";
                 beliefShare.sender = this.getName();
                 beliefShare.receiver = message.sender;
-                beliefShare.purpose = Message.Purpose.Response;
+                beliefShare.setPurpose(Message.Purpose.Response);
                 beliefShare.data.put("Accepted", accepted);
                 beliefShare.data.put("HeadingLocation", newLocation);
 

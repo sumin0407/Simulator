@@ -124,6 +124,9 @@ public abstract class ABCPlusCS extends Agent {
         }
         @Override
         public void execute() {
+            if(message.getPurpose() != Message.Purpose.Delivery) {
+                int a = 10;
+            }
             ((MCIResponseWorld) ABCPlusCS.this.world).sendMessage(message);
         }
 
@@ -134,7 +137,7 @@ public abstract class ABCPlusCS extends Agent {
     };
 
     public void receiveMessage(Message message) {
-        if (message.purpose == Message.Purpose.ReqInfo || message.purpose == Message.Purpose.ReqAction || message.purpose == Message.Purpose.Order)
+        if (message.getPurpose() == Message.Purpose.ReqInfo || message.getPurpose() == Message.Purpose.ReqAction || message.getPurpose() == Message.Purpose.Order)
             this.incomingRequests.add(message);
         else
             this.incomingInformation.add(message);

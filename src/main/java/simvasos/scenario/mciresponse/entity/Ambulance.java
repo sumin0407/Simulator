@@ -53,11 +53,11 @@ public class Ambulance extends ABCPlusCS {
     protected void consumeInformation() {
         for (Message message : this.incomingInformation) {
             // Capacity response from hospitals at this location
-            if (message.sender.startsWith("Hospital") && message.purpose == Message.Purpose.Response && message.data.containsKey("Capacity")) {
+            if (message.sender.startsWith("Hospital") && message.getPurpose() == Message.Purpose.Response && message.data.containsKey("Capacity")) {
                 this.hospitalCapacities.put(message.sender, (Integer) message.data.get("Capacity"));
 
             // Hospitalize response from the hospital
-            } else if (message.sender.startsWith("Hospital") && message.purpose == Message.Purpose.Response && message.data.containsKey("Hospitalized")) {
+            } else if (message.sender.startsWith("Hospital") && message.getPurpose() == Message.Purpose.Response && message.data.containsKey("Hospitalized")) {
                 boolean isHospitalized = (boolean) message.data.get("Hospitalized");
                 if (isHospitalized) {
                     this.targetPatient = null;
@@ -82,7 +82,7 @@ public class Ambulance extends ABCPlusCS {
                 capacityRequest.name = "Request hospital capacity";
                 capacityRequest.sender = this.getName();
                 capacityRequest.receiver = "Hospital";
-                capacityRequest.purpose = Message.Purpose.ReqInfo;
+                capacityRequest.setPurpose(Message.Purpose.ReqInfo);
                 capacityRequest.data.put("Capacity", null);
 
                 this.immediateActionList.add(new ABCItem(new SendMessage(capacityRequest), 10, 1));
@@ -113,7 +113,7 @@ public class Ambulance extends ABCPlusCS {
                     releasePatientToHospital.sender = this.getName();
                     releasePatientToHospital.receiver = "Hospital";
                     releasePatientToHospital.location = this.location;
-                    releasePatientToHospital.purpose = Message.Purpose.ReqAction;
+                    releasePatientToHospital.setPurpose(Message.Purpose.ReqAction);
                     releasePatientToHospital.data.put("Patient", this.targetPatient);
 
                     this.immediateActionList.add(new ABCItem(new SendMessage(releasePatientToHospital), 3, 1));
