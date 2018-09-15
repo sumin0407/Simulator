@@ -120,10 +120,19 @@ public class FaultWorld extends MCIResponseWorld {
     @Override
     public void sendMessage(Message msg) {
 
+        if(this.time > 110) {
+            int a = 10;
+        }
+
         boolean isFaulted = false;
         int delay = 10;
         ArrayList<FaultRange> mustRemoveRanges = new ArrayList<>();
         for(FaultRange range : faultRanges) {
+            if(range.getEndTick() <= this.time) {
+                mustRemoveRanges.add(range);
+                continue;
+            }
+
             if(range.IsBetween(this.time)) {
                 isFaulted = true;
                 switch (range.getFaultType()) {
@@ -138,8 +147,6 @@ public class FaultWorld extends MCIResponseWorld {
                         break;
                 }
                 break;
-            } else {
-                mustRemoveRanges.add(range);
             }
         }
 
