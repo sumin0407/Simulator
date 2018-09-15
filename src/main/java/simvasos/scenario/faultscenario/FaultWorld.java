@@ -9,7 +9,7 @@ import java.util.*;
 
 public class FaultWorld extends MCIResponseWorld {
 
-    enum FaultType { DelayMessage, RemoveMessage }
+    enum FaultType { None, DelayMessage, RemoveMessage }
 
     private class FaultRange {
         int startTick;
@@ -57,11 +57,11 @@ public class FaultWorld extends MCIResponseWorld {
 
     private class DelayedMessage {
         Message msg;
-        int delay;
+        int arrivalTime;
 
-        public DelayedMessage(Message msg, int delay) {
+        public DelayedMessage(Message msg, int arrivalTime) {
             this.msg = msg;
-            this.delay = delay;
+            this.arrivalTime = arrivalTime;
         }
     }
 
@@ -74,9 +74,12 @@ public class FaultWorld extends MCIResponseWorld {
     }
 
     private void setFaultRanges() {
+// examples
 //        faultRanges.add(new FaultRange(100, 200, FaultType.DelayMessage));
 //        faultRanges.add(new FaultRange(200, 300, FaultType.RemoveMessage));
 //        faultRanges.add(new FaultRange(400, FaultType.DelayMessage));
+
+        faultRanges.add(new FaultRange(100, 200, FaultType.DelayMessage));
     }
 
 
@@ -98,13 +101,11 @@ public class FaultWorld extends MCIResponseWorld {
         // 삭제 대기열
         ArrayList<DelayedMessage> mustRemoveMsgs = new ArrayList<DelayedMessage>();
         for(DelayedMessage delayedMsg : delayedMessages) {
-            if(delayedMsg.delay == 0) {
+            if(delayedMsg.arrivalTime == this.time) {
                 // 삭제 대기열에 추가
                 mustRemoveMsgs.add(delayedMsg);
 
                 super.sendMessage(delayedMsg.msg);
-            } else {
-                delayedMsg.delay--;
             }
         }
 
@@ -127,7 +128,11 @@ public class FaultWorld extends MCIResponseWorld {
                 isFaulted = true;
                 switch (range.getFaultType()) {
                     case DelayMessage:
-                        delayedMessages.add(new DelayedMessage(msg, delay));
+                        int arrivalTime = this.time + delay;
+                        if(arrivalTime > range.getEndTick()) {
+                            arrivalTime = range.getEndTick();
+                        }
+                        delayedMessages.add(new DelayedMessage(msg, arrivalTime));
                         break;
                     case RemoveMessage:
                         break;

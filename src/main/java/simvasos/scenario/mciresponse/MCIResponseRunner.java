@@ -52,8 +52,8 @@ public class MCIResponseRunner {
             //int[] nPatientArray = {50, 100, 150, 200, 250};
             //int[] nFireFighterArray = {2, 5, 10, 25, 50};
 
-            int[] nPatientArray = {50};
-            int[] nFireFighterArray = {5};
+            int[] nPatientArray = {10};
+            int[] nFireFighterArray = {3};
 
             ArrayList<Snapshot> trace;
             long startTime;
