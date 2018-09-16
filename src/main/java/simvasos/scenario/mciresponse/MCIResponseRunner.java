@@ -121,7 +121,7 @@ public class MCIResponseRunner {
 //                                    statisticsWriter.write(content);
 //                                }
 
-                                statistics.add(sostype.toString(), delay, trace);
+                                statistics.add(sostype.toString(), nPatient, nFireFighter, delay, trace);
                             }
 
                             simulationLogWriter.flush();

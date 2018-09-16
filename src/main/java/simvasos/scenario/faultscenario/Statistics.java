@@ -9,11 +9,15 @@ import java.util.ArrayList;
 public class Statistics {
     class StatisticsNode {
         String sosType;
+        int pCount;     // 환자 수
+        int ffCount;    // 소방관 수
         int delay;
         ArrayList<Snapshot> trace;
 
-        public StatisticsNode(String sosType, int delay, ArrayList<Snapshot> trace) {
+        public StatisticsNode(String sosType, int pCount, int ffCount, int delay, ArrayList<Snapshot> trace) {
             this.sosType = sosType;
+            this.pCount = pCount;
+            this.ffCount = ffCount;
             this.delay = delay;
             this.trace = trace;
         }
@@ -24,8 +28,8 @@ public class Statistics {
     public void add(StatisticsNode node) {
         nodes.add(node);
     }
-    public void add(String sosType, int delay, ArrayList<Snapshot> trace) {
-        add(new StatisticsNode(sosType, delay, trace));
+    public void add(String sosType, int pCount, int ffCount, int delay, ArrayList<Snapshot> trace) {
+        add(new StatisticsNode(sosType, pCount, ffCount, delay, trace));
     }
 
     public void write(BufferedWriter writer) throws IOException {
@@ -37,6 +41,16 @@ public class Statistics {
         for(int i = 0; i < nodes.size(); ++i) {
             StatisticsNode node = nodes.get(i);
             String content = node.sosType;
+            if(i < nodes.size() - 1) {
+                content += ", ";
+            }
+            writer.write(content);
+        }
+        writer.newLine();
+
+        for(int i = 0; i < nodes.size(); ++i) {
+            StatisticsNode node = nodes.get(i);
+            String content = "P: " + String.valueOf(node.pCount) + " / FF: " + String.valueOf(node.ffCount);
             if(i < nodes.size() - 1) {
                 content += ", ";
             }
