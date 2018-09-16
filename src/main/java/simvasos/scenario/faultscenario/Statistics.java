@@ -89,19 +89,32 @@ public class Statistics {
         }
         writer.newLine();
 
-        for(int trace_index = 0; trace_index < nodes.get(0).trace.size(); trace_index++) {
+        int maxSize = -1;
+        for(StatisticsNode node : nodes) {
+            if(node.trace.size() > maxSize) {
+                maxSize = node.trace.size();
+            }
+        }
+
+        for(int trace_index = 0; trace_index < maxSize; trace_index++) {
             for (int i = 0; i < nodes.size(); ++i) {
                 StatisticsNode node = nodes.get(i);
                 ArrayList<Snapshot> trace = node.trace;
-                Snapshot snapshot = trace.get(trace_index);
-                String content = (snapshot.getProperties().get(0).value).toString();
+                String content = "";
+                try{
+                    Snapshot snapshot = trace.get(trace_index);
+                    content = (snapshot.getProperties().get(0).value).toString();
+                } catch (IndexOutOfBoundsException e) { }
+
+                // 각 콘텐트 사이 열 구분
                 if (i < nodes.size() - 1) {
                     content += ", ";
                 }
 
+                // nTrial이 바뀔 때 열 하나 건너뛰기
                 if(i < nodes.size() - 1) {
                     if(nodes.get(i).nTrial != nodes.get(i+1).nTrial) {
-                        content += " ,";
+                        content += ", ";
                     }
                 }
                 writer.write(content);

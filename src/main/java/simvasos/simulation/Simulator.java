@@ -1,5 +1,6 @@
 package simvasos.simulation;
 
+import simvasos.scenario.mciresponse.MCIResponseRunner;
 import simvasos.simulation.component.Action;
 import simvasos.simulation.component.Agent;
 import simvasos.simulation.analysis.Snapshot;
@@ -15,6 +16,12 @@ import java.util.concurrent.TimeUnit;
  * Created by mgjin on 2017-06-21.
  */
 public class Simulator {
+
+    static int nPatient;
+    public static void setPatient(int patientCount) {
+        nPatient = patientCount;
+    }
+
     public static ArrayList<Snapshot> execute(World world, int endOfTime) throws InterruptedException {
         ArrayList<Snapshot> simulationLog = new ArrayList<Snapshot>();
 
@@ -59,7 +66,7 @@ public class Simulator {
             world.progress(1);
             simulationLog.add(world.getCurrentSnapshot());
             // Verdict - evaluateProperties();
-            if(((int)(simulationLog.get(simulationLog.size() - 1).getProperties().get(0).value)) == 50)
+            if(((int)(simulationLog.get(simulationLog.size() - 1).getProperties().get(0).value)) == nPatient)
                 stoppingCondition = true;
             if (world.getTime() >= endOfTime)       // 이게 tick 검사 부분
                 stoppingCondition = true;

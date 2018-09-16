@@ -9,7 +9,7 @@ import java.util.*;
 
 public class FaultWorld extends MCIResponseWorld {
 
-    enum FaultType { None, DelayMessage, RemoveMessage }
+    enum FaultType { None, DelaySuccessMessage, DelayFailMessage, RemoveMessage }
 
     private class FaultRange {
         int startTick;
@@ -77,11 +77,12 @@ public class FaultWorld extends MCIResponseWorld {
 
     private void setFaultRanges() {
 // examples
-//        faultRanges.add(new FaultRange(100, 200, FaultType.DelayMessage));
+//        faultRanges.add(new FaultRange(100, 200, FaultType.DelaySuccessMessage));
 //        faultRanges.add(new FaultRange(200, 300, FaultType.RemoveMessage));
-//        faultRanges.add(new FaultRange(400, FaultType.DelayMessage));
+//        faultRanges.add(new FaultRange(400, FaultType.DelaySuccessMessage));
         //faultRanges.add(new FaultRange(200, 300, FaultType.RemoveMessage));
-        faultRanges.add(new FaultRange(50, 300, FaultType.DelayMessage));
+        //faultRanges.add(new FaultRange(50, 300, FaultType.DelaySuccessMessage));
+        faultRanges.add(new FaultRange(0, 200, FaultType.DelayFailMessage));
     }
 
 
@@ -138,10 +139,12 @@ public class FaultWorld extends MCIResponseWorld {
             if(range.IsBetween(this.time)) {
                 isFaulted = true;
                 switch (range.getFaultType()) {
-                    case DelayMessage:
+                    case DelayFailMessage:
+                    case DelaySuccessMessage:
                         if(delay != 0) {
                             int arrivalTime = this.time + delay;
-                            if (arrivalTime > range.getEndTick()) {
+                            if (range.getFaultType() == FaultType.DelaySuccessMessage
+                                    && arrivalTime > range.getEndTick()) {
                                 arrivalTime = range.getEndTick();
                             }
                             delayedMessages.add(new DelayedMessage(msg, arrivalTime));

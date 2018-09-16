@@ -37,7 +37,7 @@ public class MCIResponseRunner {
 
         // 수정 --> 각 케이스별로 돌리는 횟수
         //int maxTrial = 100;
-        int maxTrial = 2;
+        int maxTrial = 1;
 
         try {
             File simulationLogFile = new File(String.format("traces/" + testSession + "/" + testSession + "_simulation_logs.csv"));
@@ -55,17 +55,22 @@ public class MCIResponseRunner {
 
             // 수정 (원본)
             //SoSType[] targetTypeArray = {SoSType.Virtual, SoSType.Collaborative, SoSType.Acknowledged, SoSType.Directed};
-            SoSType[] targetTypeArray = {SoSType.Collaborative, SoSType.Acknowledged};
-            //SoSType[] targetTypeArray = {SoSType.Collaborative};
+            //SoSType[] targetTypeArray = {SoSType.Collaborative, SoSType.Acknowledged};
+            SoSType[] targetTypeArray = {SoSType.Collaborative};
 
             // 수정 (원본)
             //int[] nPatientArray = {50, 100, 150, 200, 250};
             //int[] nFireFighterArray = {2, 5, 10, 25, 50};
 
-            int[] nPatientArray = {50};
-            int[] nFireFighterArray = {5};
+            int[] nPatientArray = {150};
+            int[] nFireFighterArray = {20};
 
-            int[] delays = {0, 10, 30, 50, 100, 200, 500, 1000};
+            ArrayList<Integer> delays = new ArrayList<Integer>();
+            //int[] delays = {0, 50, 100, 150, 200, 500, 1000};
+            for(int i = 0; i < 20; ++i)
+            {
+                delays.add(i * 50);
+            }
             //int[] delays = {0, 50, 300};
             //int[] delays = {0};
 
@@ -93,14 +98,14 @@ public class MCIResponseRunner {
 
                                 durationSum = 0;
                                 messageCntSum = 0;
-
-                                //world.setSeed(new Random().nextLong());
+                                world.setSeed(new Random().nextLong());
                                 //for (int i = minTrial - 1; i <= maxTrial; i++) {        // 왜인지는 모르겠지만 maxtrial보다 한번 더 돌리네...
                                 //world.setSeed(new Random().nextLong());
                                 ((MCIResponseWorld) world).setSoSType(sostype);
 
                                 startTime = System.currentTimeMillis();
 
+                                Simulator.setPatient(nPatient);
                                 trace = Simulator.execute(world, endTick);      // 여기서 들어가서 fault를 넣어야 할듯. 아니면 message쪽까지 가서 해야하나?
 
                                 if (i == minTrial - 1)                          // 왜인지 모르지만 첫번째 실행은 건너뛴다...
