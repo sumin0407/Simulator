@@ -65,7 +65,7 @@ public class MCIResponseRunner {
             int[] nFireFighterArray = {5};
 
             //int[] delays = {0, 10, 30, 50, 100, 200, 500, 1000};
-            int[] delays = {0, 10, 30};
+            int[] delays = {0, 50, 300};
 
             ArrayList<Snapshot> trace;
             long startTime;
@@ -78,20 +78,19 @@ public class MCIResponseRunner {
             for (int nPatient : nPatientArray) {
                 for (int nFireFighter : nFireFighterArray) {
                     for (int i = minTrial - 1; i <= maxTrial; i++) {
-                    for (SoSType sostype : targetTypeArray) {
-                        durationSum = 0;
-                        messageCntSum = 0;
-                        for(int delay : delays) {
-                            System.out.println("Patient: " + nPatient + ", Firefighter: " + nFireFighter + ", SoS: " + sostype);
-                            System.out.println(datetimeFormat.format(new Date()));
-
-                            Scenario scenario = new MCIResponseScenario(sostype, nPatient, nFireFighter, 0, 0);
-                            World world = scenario.getWorld();
-
+                        for (SoSType sostype : targetTypeArray) {
                             durationSum = 0;
                             messageCntSum = 0;
-                            //world.setSeed(new Random().nextLong());
-                            //for (int i = minTrial - 1; i <= maxTrial; i++) {        // 왜인지는 모르겠지만 maxtrial보다 한번 더 돌리네...
+
+                            for(int delay : delays) {
+                                System.out.println("Patient: " + nPatient + ", Firefighter: " + nFireFighter + ", SoS: " + sostype);
+                                System.out.println(datetimeFormat.format(new Date()));
+
+                                Scenario scenario = new MCIResponseScenario(sostype, nPatient, nFireFighter, 0, 0);
+                                World world = scenario.getWorld();
+
+                                //world.setSeed(new Random().nextLong());
+                                //for (int i = minTrial - 1; i <= maxTrial; i++) {        // 왜인지는 모르겠지만 maxtrial보다 한번 더 돌리네...
                                 //world.setSeed(new Random().nextLong());
                                 ((MCIResponseWorld) world).setSoSType(sostype);
 
@@ -126,6 +125,8 @@ public class MCIResponseRunner {
 
                                 statistics.add(sostype.toString() + i, nPatient, nFireFighter, delay, trace);
                             }
+                            if (i == minTrial - 1)                          // 왜인지 모르지만 첫번째 실행은 건너뛴다...
+                                continue;
 
                             simulationLogWriter.flush();
 
