@@ -68,6 +68,8 @@ public class FaultWorld extends MCIResponseWorld {
     private ArrayList<FaultRange> faultRanges = new ArrayList<>();
     private ArrayList<DelayedMessage> delayedMessages = new ArrayList<DelayedMessage>();
 
+    int delay;
+
     public FaultWorld(SoSType type, int nPatient) {
         super(type, nPatient);
         setFaultRanges();
@@ -110,7 +112,7 @@ public class FaultWorld extends MCIResponseWorld {
                 mustRemoveMsgs.add(delayedMsg);
 
                 super.sendMessage(delayedMsg.msg);
-                System.out.println("tick: " + this.time + " msg arrived");
+                //System.out.println("tick: " + this.time + " msg arrived");
             }
         }
 
@@ -138,12 +140,16 @@ public class FaultWorld extends MCIResponseWorld {
                 isFaulted = true;
                 switch (range.getFaultType()) {
                     case DelayMessage:
-                        int arrivalTime = this.time + delay;
-                        if(arrivalTime > range.getEndTick()) {
-                            arrivalTime = range.getEndTick();
+                        if(delay != 0) {
+                            int arrivalTime = this.time + delay;
+                            if (arrivalTime > range.getEndTick()) {
+                                arrivalTime = range.getEndTick();
+                            }
+                            delayedMessages.add(new DelayedMessage(msg, arrivalTime));
+                            //System.out.println("tick: " + this.time + " arrivalTime: " + arrivalTime + " msg type: " + msg.getPurpose());
+                        } else {
+                            super.sendMessage(msg);
                         }
-                        delayedMessages.add(new DelayedMessage(msg, arrivalTime));
-                        System.out.println("tick: " + this.time + " arrivalTime: " + arrivalTime + " msg type: " + msg.getPurpose());
                         break;
                     case RemoveMessage:
                         break;
@@ -177,5 +183,12 @@ public class FaultWorld extends MCIResponseWorld {
 //        } else {
 //            super.sendMessage(msg);
 //        }
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+    public int getDelay() {
+        return delay;
     }
 }
