@@ -36,7 +36,7 @@ public class MCIResponseRunner {
 
         // 수정 --> 각 케이스별로 돌리는 횟수
         //int maxTrial = 100;
-        int maxTrial = 1;
+        int maxTrial = 3;
 
         try {
             File simulationLogFile = new File(String.format("traces/" + testSession + "/" + testSession + "_simulation_logs.csv"));
@@ -61,8 +61,8 @@ public class MCIResponseRunner {
             //int[] nPatientArray = {50, 100, 150, 200, 250};
             //int[] nFireFighterArray = {2, 5, 10, 25, 50};
 
-            int[] nPatientArray = {10};
-            int[] nFireFighterArray = {3};
+            int[] nPatientArray = {50};
+            int[] nFireFighterArray = {5};
 
             //int[] delays = {0, 10, 30, 50, 100, 200, 500, 1000};
             int[] delays = {0, 10, 30};
@@ -77,7 +77,10 @@ public class MCIResponseRunner {
 
             for (int nPatient : nPatientArray) {
                 for (int nFireFighter : nFireFighterArray) {
+                    for (int i = minTrial - 1; i <= maxTrial; i++) {
                     for (SoSType sostype : targetTypeArray) {
+                        durationSum = 0;
+                        messageCntSum = 0;
                         for(int delay : delays) {
                             System.out.println("Patient: " + nPatient + ", Firefighter: " + nFireFighter + ", SoS: " + sostype);
                             System.out.println(datetimeFormat.format(new Date()));
@@ -88,7 +91,7 @@ public class MCIResponseRunner {
                             durationSum = 0;
                             messageCntSum = 0;
                             //world.setSeed(new Random().nextLong());
-                            for (int i = minTrial - 1; i <= maxTrial; i++) {        // 왜인지는 모르겠지만 maxtrial보다 한번 더 돌리네...
+                            //for (int i = minTrial - 1; i <= maxTrial; i++) {        // 왜인지는 모르겠지만 maxtrial보다 한번 더 돌리네...
                                 //world.setSeed(new Random().nextLong());
                                 ((MCIResponseWorld) world).setSoSType(sostype);
 
@@ -121,7 +124,7 @@ public class MCIResponseRunner {
 //                                    statisticsWriter.write(content);
 //                                }
 
-                                statistics.add(sostype.toString(), nPatient, nFireFighter, delay, trace);
+                                statistics.add(sostype.toString() + i, nPatient, nFireFighter, delay, trace);
                             }
 
                             simulationLogWriter.flush();
