@@ -128,7 +128,6 @@ public class FaultWorld extends MCIResponseWorld {
     public void sendMessage(Message msg) {
 
         boolean isFaulted = false;
-        int delay = 10;
         ArrayList<FaultRange> mustRemoveRanges = new ArrayList<>();
         for(FaultRange range : faultRanges) {
             if(range.getEndTick() <= this.time) {

@@ -1,6 +1,7 @@
 package simvasos.scenario.mciresponse;
 
 import com.sun.org.glassfish.external.statistics.Statistic;
+import simvasos.scenario.faultscenario.FaultWorld;
 import simvasos.scenario.faultscenario.Statistics;
 import simvasos.simulation.Simulator;
 import simvasos.simulation.analysis.Snapshot;
@@ -86,8 +87,9 @@ public class MCIResponseRunner {
                                 System.out.println("Patient: " + nPatient + ", Firefighter: " + nFireFighter + ", SoS: " + sostype);
                                 System.out.println(datetimeFormat.format(new Date()));
 
-                                Scenario scenario = new MCIResponseScenario(sostype, nPatient, nFireFighter, 0, 0);
-                                World world = scenario.getWorld();
+                                FaultWorld world = new FaultWorld(sostype, nPatient);
+                                world.setDelay(delay);
+                                Scenario scenario = new MCIResponseScenario(sostype, nFireFighter, 0, 0, world);
 
                                 //world.setSeed(new Random().nextLong());
                                 //for (int i = minTrial - 1; i <= maxTrial; i++) {        // 왜인지는 모르겠지만 maxtrial보다 한번 더 돌리네...
@@ -123,7 +125,7 @@ public class MCIResponseRunner {
 //                                    statisticsWriter.write(content);
 //                                }
 
-                                statistics.add(i, sostype.toString() + i, nPatient, nFireFighter, delay, trace);
+                                statistics.add(i, sostype.toString(), nPatient, nFireFighter, delay, trace);
                             }
                             if (i == minTrial - 1)                          // 왜인지 모르지만 첫번째 실행은 건너뛴다...
                                 continue;
