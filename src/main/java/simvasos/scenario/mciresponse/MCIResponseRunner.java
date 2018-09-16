@@ -31,13 +31,13 @@ public class MCIResponseRunner {
         // 테스트 커밋
         // 수정 --> Tick의 총 횟수
         //int endTick = 7500; // 8000
-        int endTick = 1000;
+        int endTick = 8000;
 
         int minTrial = 1;
 
         // 수정 --> 각 케이스별로 돌리는 횟수
         //int maxTrial = 100;
-        int maxTrial = 3;
+        int maxTrial = 2;
 
         try {
             File simulationLogFile = new File(String.format("traces/" + testSession + "/" + testSession + "_simulation_logs.csv"));
@@ -65,8 +65,9 @@ public class MCIResponseRunner {
             int[] nPatientArray = {50};
             int[] nFireFighterArray = {5};
 
-            //int[] delays = {0, 10, 30, 50, 100, 200, 500, 1000};
-            int[] delays = {0, 50, 300};
+            int[] delays = {0, 10, 30, 50, 100, 200, 500, 1000};
+            //int[] delays = {0, 50, 300};
+            //int[] delays = {0};
 
             ArrayList<Snapshot> trace;
             long startTime;
@@ -79,10 +80,9 @@ public class MCIResponseRunner {
             for (int nPatient : nPatientArray) {
                 for (int nFireFighter : nFireFighterArray) {
                     for (int i = minTrial - 1; i <= maxTrial; i++) {
+//                        durationSum = 0;
+//                        messageCntSum = 0;
                         for (SoSType sostype : targetTypeArray) {
-                            durationSum = 0;
-                            messageCntSum = 0;
-
                             for(int delay : delays) {
                                 System.out.println("Patient: " + nPatient + ", Firefighter: " + nFireFighter + ", SoS: " + sostype);
                                 System.out.println(datetimeFormat.format(new Date()));
@@ -90,6 +90,9 @@ public class MCIResponseRunner {
                                 FaultWorld world = new FaultWorld(sostype, nPatient);
                                 world.setDelay(delay);
                                 Scenario scenario = new MCIResponseScenario(sostype, nFireFighter, 0, 0, world);
+
+                                durationSum = 0;
+                                messageCntSum = 0;
 
                                 //world.setSeed(new Random().nextLong());
                                 //for (int i = minTrial - 1; i <= maxTrial; i++) {        // 왜인지는 모르겠지만 maxtrial보다 한번 더 돌리네...
@@ -112,30 +115,17 @@ public class MCIResponseRunner {
                                 simulationLogWriter.newLine();
 
                                 writeTrace(trace, String.format("traces/%s/%04d_%03d_%s_%04d.txt", testSession, nPatient, nFireFighter, sostype, i));
-
-//                                statisticsWriter.write(sostype.toString() + ", ");
-//                                statisticsWriter.write(String.valueOf(delay) + ", ");
-//
-//                                for(int trace_index = 0; trace_index < trace.size(); ++trace_index) {
-//                                    Snapshot snapshot = trace.get(trace_index);
-//                                    String content = (snapshot.getProperties().get(0).value).toString();
-//                                    if(trace_index < trace.size() - 1) {
-//                                        content += ", ";
-//                                    }
-//                                    statisticsWriter.write(content);
-//                                }
-
                                 statistics.add(i, sostype.toString(), nPatient, nFireFighter, delay, trace);
+
+                                simulationLogWriter.flush();
+
+                                System.out.println("Average duration: " + durationSum);
+                                System.out.println("Average messageCnt: " + messageCntSum);
                             }
                             if (i == minTrial - 1)                          // 왜인지 모르지만 첫번째 실행은 건너뛴다...
                                 continue;
 
-                            simulationLogWriter.flush();
 
-
-                            //statisticsWriter.flush();
-                            System.out.println("Average duration: " + durationSum / (maxTrial - minTrial + 1));
-                            System.out.println("Average messageCnt: " + messageCntSum / (maxTrial - minTrial + 1));
                         }
                     }
                 }

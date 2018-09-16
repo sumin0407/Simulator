@@ -80,8 +80,8 @@ public class FaultWorld extends MCIResponseWorld {
 //        faultRanges.add(new FaultRange(100, 200, FaultType.DelayMessage));
 //        faultRanges.add(new FaultRange(200, 300, FaultType.RemoveMessage));
 //        faultRanges.add(new FaultRange(400, FaultType.DelayMessage));
-
-        faultRanges.add(new FaultRange(0, 200, FaultType.DelayMessage));
+        //faultRanges.add(new FaultRange(200, 300, FaultType.RemoveMessage));
+        faultRanges.add(new FaultRange(50, 300, FaultType.DelayMessage));
     }
 
 
