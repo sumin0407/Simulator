@@ -8,13 +8,15 @@ import java.util.ArrayList;
 
 public class Statistics {
     class StatisticsNode {
+        int nTrial;
         String sosType;
         int pCount;     // 환자 수
         int ffCount;    // 소방관 수
         int delay;
         ArrayList<Snapshot> trace;
 
-        public StatisticsNode(String sosType, int pCount, int ffCount, int delay, ArrayList<Snapshot> trace) {
+        public StatisticsNode(int nTrial, String sosType, int pCount, int ffCount, int delay, ArrayList<Snapshot> trace) {
+            this.nTrial = nTrial;
             this.sosType = sosType;
             this.pCount = pCount;
             this.ffCount = ffCount;
@@ -28,8 +30,8 @@ public class Statistics {
     public void add(StatisticsNode node) {
         nodes.add(node);
     }
-    public void add(String sosType, int pCount, int ffCount, int delay, ArrayList<Snapshot> trace) {
-        add(new StatisticsNode(sosType, pCount, ffCount, delay, trace));
+    public void add(int nTrial, String sosType, int pCount, int ffCount, int delay, ArrayList<Snapshot> trace) {
+        add(new StatisticsNode(nTrial, sosType, pCount, ffCount, delay, trace));
     }
 
     public void write(BufferedWriter writer) throws IOException {
@@ -38,11 +40,18 @@ public class Statistics {
 //            bw.newLine();
 //        }
 
+
         for(int i = 0; i < nodes.size(); ++i) {
             StatisticsNode node = nodes.get(i);
-            String content = node.sosType;
+            String content = node.sosType + node.nTrial;
             if(i < nodes.size() - 1) {
                 content += ", ";
+            }
+
+            if(i < nodes.size() - 1) {
+                if(nodes.get(i).nTrial != nodes.get(i+1).nTrial) {
+                    content += " ,";
+                }
             }
             writer.write(content);
         }
@@ -54,6 +63,12 @@ public class Statistics {
             if(i < nodes.size() - 1) {
                 content += ", ";
             }
+
+            if(i < nodes.size() - 1) {
+                if(nodes.get(i).nTrial != nodes.get(i+1).nTrial) {
+                    content += " ,";
+                }
+            }
             writer.write(content);
         }
         writer.newLine();
@@ -63,6 +78,12 @@ public class Statistics {
             String content = "delay: " + String.valueOf(node.delay);
             if(i < nodes.size() - 1) {
                 content += ", ";
+            }
+
+            if(i < nodes.size() - 1) {
+                if(nodes.get(i).nTrial != nodes.get(i+1).nTrial) {
+                    content += " ,";
+                }
             }
             writer.write(content);
         }
@@ -76,6 +97,12 @@ public class Statistics {
                 String content = (snapshot.getProperties().get(0).value).toString();
                 if (i < nodes.size() - 1) {
                     content += ", ";
+                }
+
+                if(i < nodes.size() - 1) {
+                    if(nodes.get(i).nTrial != nodes.get(i+1).nTrial) {
+                        content += " ,";
+                    }
                 }
                 writer.write(content);
             }

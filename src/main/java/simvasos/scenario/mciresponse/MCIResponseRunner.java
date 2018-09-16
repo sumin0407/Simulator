@@ -123,7 +123,7 @@ public class MCIResponseRunner {
 //                                    statisticsWriter.write(content);
 //                                }
 
-                                statistics.add(sostype.toString() + i, nPatient, nFireFighter, delay, trace);
+                                statistics.add(i, sostype.toString() + i, nPatient, nFireFighter, delay, trace);
                             }
                             if (i == minTrial - 1)                          // 왜인지 모르지만 첫번째 실행은 건너뛴다...
                                 continue;
